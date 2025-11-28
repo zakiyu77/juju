@@ -11,12 +11,13 @@ import spotify from './api/spotify.js';
 import threads from './api/threads.js';
 import videy from './api/videy.js';
 import statusHandler from './api/status.js';
+import healthHandler from './api/health.js';  // ← Tambahkan ini
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
@@ -39,10 +40,8 @@ app.use((req, res, next) => {
 // Status endpoint (Main health check)
 app.get('/api/status', statusHandler);
 
-// Health check (redirect to status)
-app.get('/api/health', (req, res) => {
-  res.redirect(301, '/api/status');
-});
+// Health check (standalone, tidak redirect)
+app.get('/api/health', healthHandler);  // ← Update ini
 
 // API root endpoint
 app.get('/api', (req, res) => {
@@ -51,8 +50,8 @@ app.get('/api', (req, res) => {
     message: '👋 Welcome to AIO Downloader API!',
     version: '1.0.0',
     endpoints: {
-      status: 'GET /api/status - Check server status',
-      health: 'GET /api/health - Health check (redirects to /api/status)',
+      status: 'GET /api/status - Detailed server status',
+      health: 'GET /api/health - Simple health check',
       downloads: {
         facebook: 'POST /api/download/facebook',
         tiktok: 'POST /api/download/tiktok',
@@ -99,8 +98,8 @@ app.use((req, res) => {
     message: `The endpoint ${req.method} ${req.url} does not exist`,
     availableEndpoints: [
       'GET  /api - API information',
-      'GET  /api/status - Server status',
-      'GET  /api/health - Health check',
+      'GET  /api/status - Detailed server status',
+      'GET  /api/health - Simple health check',
       'POST /api/download/facebook',
       'POST /api/download/tiktok',
       'POST /api/download/youtube',
@@ -139,8 +138,8 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log('');
   console.log('📋 Available Endpoints:');
   console.log('   GET  /api              - API information');
-  console.log('   GET  /api/status       - Server status dashboard');
-  console.log('   GET  /api/health       - Health check');
+  console.log('   GET  /api/status       - Detailed server status');
+  console.log('   GET  /api/health       - Simple health check');
   console.log('');
   console.log('   POST /api/download/facebook   - Facebook downloader');
   console.log('   POST /api/download/tiktok     - TikTok downloader');
@@ -161,10 +160,7 @@ app.listen(PORT, '0.0.0.0', () => {
 // Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('\n⚠️  SIGTERM signal received: closing HTTP server');
-  server.close(() => {
-    console.log('✅ HTTP server closed');
-    process.exit(0);
-  });
+  process.exit(0);
 });
 
 process.on('SIGINT', () => {
