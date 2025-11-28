@@ -1,61 +1,42 @@
 {
   "version": 2,
-  "name": "aio-downloader",
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
-    }
-  ],
+  "name": "kontok",
   "routes": [
     {
       "src": "/api/status",
-      "dest": "/api/status.js",
-      "methods": ["GET", "OPTIONS"]
+      "dest": "/api/status.js"
     },
     {
       "src": "/api/health",
-      "dest": "/api/health.js",
-      "methods": ["GET", "OPTIONS"]
+      "dest": "/api/health.js"
     },
     {
       "src": "/api/download/facebook",
-      "dest": "/api/facebook.js",
-      "methods": ["POST", "OPTIONS"]
+      "dest": "/api/facebook.js"
     },
     {
       "src": "/api/download/tiktok",
-      "dest": "/api/tiktok.js",
-      "methods": ["POST", "OPTIONS"]
+      "dest": "/api/tiktok.js"
     },
     {
       "src": "/api/download/youtube",
-      "dest": "/api/youtube.js",
-      "methods": ["POST", "OPTIONS"]
+      "dest": "/api/youtube.js"
     },
     {
       "src": "/api/download/spotify",
-      "dest": "/api/spotify.js",
-      "methods": ["POST", "OPTIONS"]
+      "dest": "/api/spotify.js"
     },
     {
       "src": "/api/download/threads",
-      "dest": "/api/threads.js",
-      "methods": ["POST", "OPTIONS"]
+      "dest": "/api/threads.js"
     },
     {
       "src": "/api/download/videy",
-      "dest": "/api/videy.js",
-      "methods": ["POST", "OPTIONS"]
+      "dest": "/api/videy.js"
     },
     {
       "src": "/api",
-      "dest": "/api/index.js",
-      "methods": ["GET", "OPTIONS"]
+      "dest": "/api/index.js"
     },
     {
       "src": "/",
@@ -66,12 +47,8 @@
       "dest": "/public/$1"
     }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "regions": ["sin1"],
   "functions": {
-    "api/**/*.js": {
+    "api/*.js": {
       "memory": 1024,
       "maxDuration": 10
     }
