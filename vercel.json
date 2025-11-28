@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "name": "aio-downloader",
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/status",
+      "dest": "/api/status.js",
+      "methods": ["GET", "OPTIONS"]
+    },
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js",
+      "methods": ["GET", "OPTIONS"]
+    },
+    {
+      "src": "/api/download/facebook",
+      "dest": "/api/facebook.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/download/tiktok",
+      "dest": "/api/tiktok.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/download/youtube",
+      "dest": "/api/youtube.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/download/spotify",
+      "dest": "/api/spotify.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/download/threads",
+      "dest": "/api/threads.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api/download/videy",
+      "dest": "/api/videy.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/api",
+      "dest": "/api/index.js",
+      "methods": ["GET", "OPTIONS"]
+    },
+    {
+      "src": "/",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "regions": ["sin1"],
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
+}
